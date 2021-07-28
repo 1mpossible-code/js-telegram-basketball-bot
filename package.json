@@ -1,10 +1,10 @@
 {
-  "name": "js-basketball-bot",
+  "name": "js-telegram-basketball-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "bot.ts",
+  "main": "src/bot.ts",
   "scripts": {
-    "start": "tsc bot.ts && node bot.js"
+    "start": "tsc && node build/bot.js"
   },
   "keywords": [],
   "author": "",
