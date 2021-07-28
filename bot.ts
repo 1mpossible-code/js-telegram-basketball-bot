@@ -1,5 +1,5 @@
 import {Telegraf} from 'telegraf'
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 
 // Configure 'dotenv'
 dotenv.config();
