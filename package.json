@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/bot.ts",
   "scripts": {
-    "start": "nodemon"
+    "dev": "nodemon",
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/bot.js"
   },
   "keywords": [],
   "author": "",
