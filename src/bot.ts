@@ -1,5 +1,7 @@
-import {Context, Telegraf} from 'telegraf'
+import {Scenes, session, Telegraf} from 'telegraf'
 import * as dotenv from "dotenv";
+import echoScene from "./controllers/echo";
+import MyContext from "./controllers/IMyContext";
 
 // Configure 'dotenv'
 dotenv.config();
@@ -10,31 +12,20 @@ if (token === undefined) {
 }
 
 // Create bot instance
-const bot = new Telegraf<Context>(token);
+const bot = new Telegraf<MyContext>(token);
 
-// Start command handler
+// Create new stage with all scenes
+const stage = new Scenes.Stage<MyContext>([echoScene])
+
+// Middleware
+bot.use(session());
+bot.use(stage.middleware());
+
+// Handlers
+// '/start' greeting
 bot.start(ctx => ctx.reply('Hello!'));
-
-// Basketball dice handler
-bot.on('dice', (ctx) => {
-    // If dice emoji is basketball
-    if (ctx.message.dice.emoji === '🏀') {
-        // Value '5' is the winning value, so everything
-        // else is losing values
-        //
-        // Set timeout to send message about the
-        // dice status after the animation
-        if (ctx.message.dice.value === 5) {
-            setTimeout(
-                () => ctx.reply('You win'), 2500
-            )
-        } else {
-            setTimeout(
-                () => ctx.reply('You lose'), 2500
-            )
-        }
-    }
-});
+// '/echo' Echo bot
+bot.command('echo', (ctx) => ctx.scene.enter('echo'))
 
 // Launch bot
 bot.launch().then(() => console.log('Bot is ONLINE'));
