@@ -1,11 +1,16 @@
-import {Telegraf} from 'telegraf'
+import {Context, Telegraf} from 'telegraf'
 import * as dotenv from "dotenv";
 
 // Configure 'dotenv'
 dotenv.config();
 
+const token = process.env.BOT_TOKEN
+if (token === undefined) {
+    throw new Error('BOT_TOKEN must be provided!')
+}
+
 // Create bot instance
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf<Context>(token);
 
 // Start command handler
 bot.start(ctx => ctx.reply('Hello!'));
