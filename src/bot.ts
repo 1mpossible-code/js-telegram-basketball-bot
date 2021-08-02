@@ -5,7 +5,6 @@ import MyContext from "./controllers/IMyContext";
 
 // Configure 'dotenv'
 dotenv.config();
-
 const token = process.env.BOT_TOKEN
 if (token === undefined) {
     throw new Error('BOT_TOKEN must be provided!')
@@ -22,10 +21,11 @@ bot.use(session());
 bot.use(stage.middleware());
 
 // Handlers
+//
 // '/start' greeting
-bot.start(ctx => ctx.reply('Hello!'));
+bot.start((ctx: MyContext) => ctx.reply('Hello!'));
 // '/echo' Echo bot
-bot.command('echo', (ctx) => ctx.scene.enter('echo'))
+bot.command('echo', (ctx: MyContext) => ctx.scene.enter('echo'))
 
 // Launch bot
 bot.launch().then(() => console.log('Bot is ONLINE'));
