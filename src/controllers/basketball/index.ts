@@ -1,6 +1,13 @@
-import {Scenes} from 'telegraf';
+import {Scenes, Markup} from 'telegraf';
 import MyContext from "../IMyContext";
 import {deleteMessage} from "./util";
+
+// Inline keyboard markup, that shows
+// itself when enter 'basketball' scene
+const enterReplyOptions = Markup.inlineKeyboard([
+    Markup.button.callback('Join', 'join'),
+    Markup.button.callback('Start', 'start'),
+])
 
 // Handler factories
 const {leave} = Scenes.Stage;
@@ -8,7 +15,7 @@ const {leave} = Scenes.Stage;
 const basketballScene = new Scenes.BaseScene<MyContext>('basketball');
 
 // Enter message
-basketballScene.enter((ctx) => ctx.reply('Basketball scene greeting'));
+basketballScene.enter((ctx) => ctx.reply('Basketball scene greeting', enterReplyOptions));
 // Leave message
 basketballScene.leave((ctx) => ctx.reply('Basketball scene leave'));
 // Handle exit command

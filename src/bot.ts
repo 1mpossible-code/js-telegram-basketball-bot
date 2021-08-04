@@ -6,13 +6,13 @@ import basketballScene from "./controllers/basketball";
 
 // Configure 'dotenv'
 dotenv.config();
-const token = process.env.BOT_TOKEN
+const token: string = process.env.BOT_TOKEN
 if (token === undefined) {
     throw new Error('BOT_TOKEN must be provided!')
 }
 
 // Create bot instance
-const bot = new Telegraf<MyContext>(token);
+const bot = new Telegraf<MyContext>(<string>token);
 
 // Create new stage with all scenes
 const stage = new Scenes.Stage<MyContext>([
