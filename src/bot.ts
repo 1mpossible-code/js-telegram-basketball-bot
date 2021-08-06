@@ -29,8 +29,12 @@ bot.start((ctx: MyContext) => ctx.reply('Hello!'));
 // '/echo' Echo bot
 bot.command('echo', (ctx: MyContext) => ctx.scene.enter('echo'))
 // '/basketball' Start basketball game
-bot.command('basketball', (ctx: MyContext) => {
-    ctx.scene.enter('basketball');
+bot.command('basketball', (ctx) => {
+    if (ctx.update.message.chat.type === 'group') {
+        ctx.scene.enter('basketball');
+    } else {
+        ctx.reply('Sorry! This option is available only in groups');
+    }
 })
 
 // Launch bot
