@@ -1,9 +1,16 @@
-import {Schema, model} from "mongoose";
+import mongoose, {Document} from "mongoose";
 
-const playerSchema = new Schema({
+export interface IPlayer extends Document {
+    _id: string,
+    name: string,
+    score: number,
+}
+
+export const PlayerSchema = new mongoose.Schema({
     _id: Number,
     name: String,
     score: Number,
 });
 
-export default model('Player', playerSchema);
+const Player = mongoose.model<IPlayer>('Player', PlayerSchema);
+export default Player;
