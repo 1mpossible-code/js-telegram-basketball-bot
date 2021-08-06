@@ -1,4 +1,4 @@
-import MyContext from "../IMyContext";
+import MyContext from "../../types/IMyContext";
 
 /**
  * Delete message aster 5000 ms.

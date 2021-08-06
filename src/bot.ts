@@ -1,7 +1,7 @@
 import {config} from "./config";
 import {Scenes, session, Telegraf} from 'telegraf'
 import echoScene from "./controllers/echo";
-import MyContext from "./controllers/IMyContext";
+import MyContext from "./types/IMyContext";
 import basketballScene from "./controllers/basketball";
 import mongoose from "mongoose";
 

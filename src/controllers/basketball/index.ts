@@ -1,5 +1,5 @@
 import {Scenes, Markup} from 'telegraf';
-import MyContext from "../IMyContext";
+import MyContext from "../../types/IMyContext";
 import {deleteMessage} from "./util";
 
 // Inline keyboard markup, that shows
@@ -40,6 +40,10 @@ basketballScene.on('dice', (ctx) => {
         }
     }
 });
+basketballScene.on("callback_query", (ctx) => {
+    console.log(ctx);
+    console.log(ctx.callbackQuery.from.id);
+})
 // Delete all other messages
 basketballScene.on('message', deleteMessage);
 

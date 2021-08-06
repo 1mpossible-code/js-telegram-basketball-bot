@@ -1,5 +1,5 @@
 import { Context, Scenes } from 'telegraf'
-import MyContext from "../IMyContext";
+import MyContext from "../../types/IMyContext";
 
 // Handler factories
 const { leave } = Scenes.Stage
