@@ -1,18 +1,11 @@
+import {config} from "./config";
 import {Scenes, session, Telegraf} from 'telegraf'
-import * as dotenv from "dotenv";
 import echoScene from "./controllers/echo";
 import MyContext from "./controllers/IMyContext";
 import basketballScene from "./controllers/basketball";
 
-// Configure 'dotenv'
-dotenv.config();
-const token: string = process.env.BOT_TOKEN
-if (token === undefined) {
-    throw new Error('BOT_TOKEN must be provided!')
-}
-
 // Create bot instance
-const bot = new Telegraf<MyContext>(<string>token);
+const bot = new Telegraf<MyContext>(config.token);
 
 // Create new stage with all scenes
 const stage = new Scenes.Stage<MyContext>([
