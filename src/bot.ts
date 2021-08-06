@@ -3,9 +3,15 @@ import {Scenes, session, Telegraf} from 'telegraf'
 import echoScene from "./controllers/echo";
 import MyContext from "./controllers/IMyContext";
 import basketballScene from "./controllers/basketball";
+import mongoose from "mongoose";
 
 // Create bot instance
 const bot = new Telegraf<MyContext>(config.token);
+
+// Connect to database using 'DB_URI' env property with mongoose
+mongoose.connect(config.dbURI)
+    .then(() => console.log('Database Connected'))
+    .catch(err => console.error(err));
 
 // Create new stage with all scenes
 const stage = new Scenes.Stage<MyContext>([
