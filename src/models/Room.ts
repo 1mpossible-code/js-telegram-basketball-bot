@@ -7,8 +7,8 @@ export interface IRoom extends Document {
     maxScore: number,
     players: IPlayer[],
     turn: number,
-    createdAt: Date,
-    updatedAt: Date,
+    createdAt: number,
+    updatedAt: number,
 }
 
 const RoomSchema = new mongoose.Schema({

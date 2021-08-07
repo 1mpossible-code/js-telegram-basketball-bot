@@ -1,9 +1,15 @@
 import MyContext from "../../types/IMyContext";
 import Player, {IPlayer} from "../../models/Player";
+import Room, {IRoom} from "../../models/Room";
 
 export interface IUser {
     _id: string,
     name: string
+}
+
+export interface IChat {
+    _id: string,
+    owner: IPlayer,
 }
 
 /**
@@ -20,10 +26,29 @@ export const deleteMessage = (ctx: MyContext) => {
  * Create or find player from db
  * @param user
  */
-export const createPlayer = async (user: IUser) => {
+export const getPlayer = async (user: IUser) => {
     return await Player.findOne({_id: user._id}) ?? await Player.create(<IPlayer>{
         _id: user._id,
         name: user.name,
         score: 0,
     })
+}
+
+export const getRoom = async (chat: IChat) => {
+    return await Room.findOne({_id: chat._id}) ?? await Room.create(<IRoom>{
+        _id: chat._id,
+        owner: chat.owner,
+        maxScore: 0,
+        players: [chat.owner],
+        turn: 0,
+        createdAt: new Date().valueOf(),
+        updatedAt: new Date().valueOf(),
+    })
+}
+
+export const updateRoom = async (id: number | string, data: Object) => {
+    return Room.updateOne({_id: String(id)}, {
+        ...data,
+        updatedAt: new Date().valueOf(),
+    });
 }
