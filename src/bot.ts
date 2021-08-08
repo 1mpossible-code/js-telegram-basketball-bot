@@ -2,7 +2,7 @@ import {config} from "./config";
 import {Scenes, session, Telegraf} from 'telegraf'
 import echoScene from "./controllers/echo";
 import MyContext from "./types/IMyContext";
-import basketballScene from "./controllers/basketball";
+import basketballScene from "./routes/basketball";
 import mongoose from "mongoose";
 import logger from "./util/logger";
 

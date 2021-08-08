@@ -1,6 +1,7 @@
 import MyContext from "../../types/IMyContext";
 import Player, {IPlayer} from "../../models/Player";
 import Room, {IRoom} from "../../models/Room";
+import {Markup} from "telegraf";
 
 export interface IUser {
     _id: string,
@@ -63,4 +64,13 @@ export const timeoutMessage = (ctx: MyContext, message: string, timeout: number)
     setTimeout(
         () => ctx.reply(message), timeout
     );
+}
+
+export const getEnterReplyOptions = () => {
+    // Inline keyboard markup, that shows
+    // itself when enter 'basketball' scene
+    return Markup.inlineKeyboard([
+        Markup.button.callback('Join', 'join'),
+        Markup.button.callback('Start', 'start'),
+    ])
 }

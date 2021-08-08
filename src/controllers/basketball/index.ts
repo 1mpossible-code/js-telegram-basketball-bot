@@ -1,21 +1,12 @@
-import {Markup, Scenes} from 'telegraf';
+import {Scenes} from 'telegraf';
 import MyContext from "../../types/IMyContext";
-import {deleteMessage, getPlayer, getRoom, IChat, IUser, timeoutMessage} from "./util";
+import {deleteMessage, getEnterReplyOptions, getPlayer, getRoom, IChat, IUser, timeoutMessage} from "./util";
 import logger from "../../util/logger";
 
-// Inline keyboard markup, that shows
-// itself when enter 'basketball' scene
-const enterReplyOptions = Markup.inlineKeyboard([
-    Markup.button.callback('Join', 'join'),
-    Markup.button.callback('Start', 'start'),
-])
-
-// Echo scene
-const basketballScene = new Scenes.BaseScene<MyContext>('basketball');
 
 // Enter message
-basketballScene.enter(async (ctx: MyContext) => {
-    await ctx.reply('Basketball scene greeting', enterReplyOptions);
+export const enter = async (ctx: MyContext) => {
+    await ctx.reply('Basketball scene greeting', getEnterReplyOptions());
 
     const user: IUser = {
         _id: String(ctx.from?.id),
@@ -34,17 +25,22 @@ basketballScene.enter(async (ctx: MyContext) => {
     const room = await getRoom(chat);
 
     logger.debug(room);
-});
-// Leave message
-basketballScene.leave((ctx) => ctx.reply('Basketball scene leave'));
+};
+export const leave = (ctx: MyContext) => ctx.reply('Basketball scene leave');
 // Handle exit command
-basketballScene.command('exit', Scenes.Stage.leave<MyContext>());
+export const exit = () => {
+    Scenes.Stage.leave<MyContext>();
+};
 // Dice handler
-basketballScene.on('dice', (ctx) => {
+export const dice = (ctx: MyContext) => {
+    // @ts-ignore because dice is not supported
+    // with MyContext created with documentation
+    // from Telegraf
+    const dice = ctx.message.dice
+    // Extract value and emoji from dice result
+    const {value, emoji} = dice;
     // If dice emoji is basketball
-    if (ctx.message.dice.emoji === '🏀') {
-        // Extract value from dice result
-        const {value} = ctx.message.dice;
+    if (emoji === '🏀') {
         logger.debug(`The dice rolled up with value: ${value}`);
         // Value '5' is the winning value, so everything
         // else is losing values
@@ -57,13 +53,11 @@ basketballScene.on('dice', (ctx) => {
             timeoutMessage(ctx, 'You lose', 4000);
         }
     }
-});
-basketballScene.on("callback_query", (ctx) => {
+}
+export const callback_query = (ctx: MyContext) => {
     logger.info(ctx);
-    logger.info(ctx.callbackQuery.from.id);
-})
+}
 // Delete all other messages
-basketballScene.on('message', deleteMessage);
-
-
-export default basketballScene;
+export const message = (ctx: MyContext) => {
+    deleteMessage(ctx)
+}
