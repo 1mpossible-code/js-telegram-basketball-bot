@@ -52,3 +52,15 @@ export const updateRoom = async (id: number | string, data: Object) => {
         updatedAt: new Date().valueOf(),
     });
 }
+
+/**
+ * Send message with timeout
+ * @param ctx
+ * @param message
+ * @param timeout
+ */
+export const timeoutMessage = (ctx: MyContext, message: string, timeout: number): void => {
+    setTimeout(
+        () => ctx.reply(message), timeout
+    );
+}
