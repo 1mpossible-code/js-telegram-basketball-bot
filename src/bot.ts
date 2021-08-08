@@ -4,14 +4,15 @@ import echoScene from "./controllers/echo";
 import MyContext from "./types/IMyContext";
 import basketballScene from "./controllers/basketball";
 import mongoose from "mongoose";
+import logger from "./util/logger";
 
 // Create bot instance
 const bot = new Telegraf<MyContext>(config.token);
 
 // Connect to database using 'DB_URI' env property with mongoose
 mongoose.connect(config.dbURI)
-    .then(() => console.log('Database Connected'))
-    .catch(err => console.error(err));
+    .then(() => logger.info('Database Connected'))
+    .catch(err => logger.error(err));
 
 // Create new stage with all scenes
 const stage = new Scenes.Stage<MyContext>([
@@ -38,7 +39,7 @@ bot.command('basketball', (ctx) => {
 })
 
 // Launch bot
-bot.launch().then(() => console.log('Bot is ONLINE'));
+bot.launch().then(() => logger.info('Bot is ONLINE'));
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
