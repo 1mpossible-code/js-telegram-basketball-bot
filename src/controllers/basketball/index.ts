@@ -4,7 +4,7 @@ import {deleteMessage, getEnterReplyOptions, getPlayer, getRoom, IChat, IUser, t
 import logger from "../../util/logger";
 
 
-// Enter message
+// Handle enter routes
 export const enter = async (ctx: MyContext) => {
     await ctx.reply('Basketball scene greeting', getEnterReplyOptions());
 
@@ -26,6 +26,10 @@ export const enter = async (ctx: MyContext) => {
 
     logger.debug(room);
 };
+
+export const setRoomMaxScore = async (ctx: MyContext) => {}
+
+
 export const leave = (ctx: MyContext) => ctx.reply('Basketball scene leave');
 // Handle exit command
 export const exit = () => {

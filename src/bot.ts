@@ -2,7 +2,8 @@ import {config} from "./config";
 import {Scenes, session, Telegraf} from 'telegraf'
 import echoScene from "./controllers/echo";
 import MyContext from "./types/IMyContext";
-import basketballScene from "./routes/basketball";
+import basketballGameScene from "./routes/basketball/basketball";
+import basketballEnterScene from "./routes/basketball/enter";
 import mongoose from "mongoose";
 import logger from "./util/logger";
 
@@ -16,7 +17,7 @@ mongoose.connect(config.dbURI)
 
 // Create new stage with all scenes
 const stage = new Scenes.Stage<MyContext>([
-    echoScene, basketballScene,
+    echoScene, basketballGameScene, basketballEnterScene,
 ])
 
 // Middleware
@@ -32,7 +33,7 @@ bot.command('echo', (ctx: MyContext) => ctx.scene.enter('echo'))
 // '/basketball' Start basketball game
 bot.command('basketball', (ctx) => {
     if (ctx.update.message.chat.type === 'group') {
-        ctx.scene.enter('basketball');
+        ctx.scene.enter('basketball-enter');
     } else {
         ctx.reply('Sorry! This option is available only in groups');
     }
