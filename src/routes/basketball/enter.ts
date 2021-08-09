@@ -7,6 +7,6 @@ const basketballEnterScene = new Scenes.BaseScene<MyContext>('basketball-enter')
 
 // Enter message
 basketballEnterScene.enter(basketballController.enter);
-basketballEnterScene.on('callback_query', basketballController.setRoomMaxScore);
+basketballEnterScene.on('message', basketballController.setRoomMaxScore);
 
 export default basketballEnterScene;

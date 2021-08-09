@@ -27,7 +27,23 @@ export const enter = async (ctx: MyContext) => {
     logger.debug(room);
 };
 
-export const setRoomMaxScore = async (ctx: MyContext) => {}
+export const setRoomMaxScore = async (ctx: MyContext) => {
+    // @ts-ignore
+    const numberText = ctx.message.text;
+    const isDigit = /^[0-9]+$/.test(numberText);
+    if (isDigit && parseInt(numberText) <= 10) {
+        await ctx.reply(`Ok. Max score in this game is ${numberText}`);
+    } else if (isDigit) {
+        await ctx.reply('I think the score is too high. Try again');
+    } else {
+        deleteMessage(ctx)
+        // Send a message and then delete it in 5 sec
+        const message = await ctx.reply('You need to specify a number to set max score.')
+        setTimeout(async () => {
+            await ctx.deleteMessage(message.message_id);
+        }, 5000)
+    }
+}
 
 
 export const leave = (ctx: MyContext) => ctx.reply('Basketball scene leave');
