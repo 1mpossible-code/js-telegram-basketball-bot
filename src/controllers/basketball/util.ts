@@ -3,14 +3,10 @@ import Player, {IPlayer} from "../../models/Player";
 import Room, {IRoom} from "../../models/Room";
 import {Markup} from "telegraf";
 
-export interface IUser {
-    _id: string,
-    name: string
-}
 
 export interface IChat {
     _id: string,
-    owner: IPlayer,
+    owner?: IPlayer,
 }
 
 /**
@@ -21,18 +17,6 @@ export const deleteMessage = (ctx: MyContext) => {
     setTimeout(async () => {
         await ctx.deleteMessage();
     }, 5000);
-}
-
-/**
- * Create or find player from db
- * @param user
- */
-export const getPlayer = async (user: IUser) => {
-    return await Player.findOne({_id: user._id}) ?? await Player.create(<IPlayer>{
-        _id: user._id,
-        name: user.name,
-        score: 0,
-    })
 }
 
 export const getRoom = async (chat: IChat) => {
