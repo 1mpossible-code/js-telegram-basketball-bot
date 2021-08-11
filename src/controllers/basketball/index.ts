@@ -1,7 +1,8 @@
 import {Scenes} from 'telegraf';
 import MyContext from "../../types/IMyContext";
-import {deleteMessage, getEnterReplyOptions, getRoom, IChat, timeoutMessage} from "./util";
+import {deleteMessage, getEnterReplyOptions, timeoutMessage} from "./util";
 import {getPlayer, IUser} from "../../services/PlayerService";
+import {getRoom, IChat} from "../../services/RoomService";
 import logger from "../../util/logger";
 
 

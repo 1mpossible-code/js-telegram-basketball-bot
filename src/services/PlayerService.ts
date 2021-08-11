@@ -1,3 +1,5 @@
+import Player, {IPlayer} from "../models/Player";
+
 export interface IUser {
     _id: string,
     name: string
