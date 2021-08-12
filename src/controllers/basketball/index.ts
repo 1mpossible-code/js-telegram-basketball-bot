@@ -4,6 +4,7 @@ import {deleteMessage, getEnterReplyOptions, timeoutMessage} from "./util";
 import {getPlayer, IUser} from "../../services/PlayerService";
 import {getRoom, IChat} from "../../services/RoomService";
 import logger from "../../util/logger";
+import {checkIfWin, IDice} from "../../services/DiceService";
 
 
 // Handle enter routes
@@ -58,22 +59,12 @@ export const dice = (ctx: MyContext) => {
     // @ts-ignore because dice is not supported
     // with MyContext created with documentation
     // from Telegraf
-    const dice = ctx.message.dice
-    // Extract value and emoji from dice result
-    const {value, emoji} = dice;
-    // If dice emoji is basketball
-    if (emoji === '🏀') {
-        logger.debug(`The dice rolled up with value: ${value}`);
-        // Value '5' is the winning value, so everything
-        // else is losing values
-        //
-        // Set timeout to send message about the
-        // dice status after the animation
-        if (value === 5 || value === 4) {
-            timeoutMessage(ctx, 'You win', 4000);
-        } else {
-            timeoutMessage(ctx, 'You lose', 4000);
-        }
+    const dice: IDice = ctx.message.dice
+    // Check if dice is winning one
+    if (checkIfWin(dice)) {
+        timeoutMessage(ctx, 'You win', 4000);
+    } else {
+        timeoutMessage(ctx, 'You lose', 4000);
     }
 }
 export const callback_query = (ctx: MyContext) => {
