@@ -34,6 +34,7 @@ export const setRoomMaxScore = async (ctx: MyContext) => {
     // @ts-ignore
     const numberText = ctx.message.text;
     const isDigit = /^[0-9]+$/.test(numberText);
+    // Check if the text is number and if the number is <= 10
     if (isDigit && parseInt(numberText) <= 10) {
         await ctx.reply(`Ok. Max score in this game is ${numberText}`);
     } else if (isDigit) {

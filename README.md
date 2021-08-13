@@ -2,6 +2,8 @@
 
 ![](https://img.shields.io/github/license/1mpossible-code/js-telegram-basketball-bot?color=green)
 
+Telegram bot that creates an opportunity to play basketball with your friends in group.
+
 ## Table Of Contents
 
 * [Description](#description)
@@ -14,6 +16,12 @@
 ----
 
 ## Description
+
+With the help of this bot you can spend your time with friends 
+playing basketball in your telegram group. Enjoy your time!
+
+Bot written in [TypeScript](https://www.typescriptlang.org/) with the help of [telegraf](https://telegraf.js.org/)
+library. Uses [MongoDB](https://www.mongodb.com/) as database
 
 ## Installation
 
