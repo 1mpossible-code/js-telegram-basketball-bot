@@ -12,7 +12,6 @@ basketballGameScene.leave(basketballController.leave);
 basketballGameScene.command('exit', basketballController.exit);
 // Dice handler
 basketballGameScene.on('dice', basketballController.dice);
-basketballGameScene.on("callback_query", basketballController.callback_query)
 // Delete all other messages
 basketballGameScene.on('message', basketballController.message);
 
