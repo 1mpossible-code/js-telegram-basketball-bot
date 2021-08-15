@@ -1,4 +1,5 @@
 import {IPlayer} from "../models/Player";
+import * as PlayerService from "./PlayerService";
 import Room, {IRoom} from "../models/Room";
 import logger from "../util/logger";
 
@@ -29,13 +30,16 @@ export const updateRoom = async (id: number | string, data: Object) => {
 /**
  * Add player to room and return true if player
  * has been added, in other cases return false.
- * @param roomId
- * @param player
+ * @param chat
+ * @param user
  * @return boolean
  */
-export const addPlayerToRoom = async (roomId: number | string, player: IPlayer) => {
+export const addPlayerToRoom = async (chat: IChat, user: PlayerService.IUser) => {
+    // Get player
+    const player: IPlayer = await PlayerService.getPlayer(user);
     // Get room
-    const room = await Room.findOne({_id: String(roomId)}).populate('players');
+    const room: IRoom = await getRoom(chat);
+    room.populate('players');
     // Check if user index not exists
     if (room && room.players.findIndex(x => x._id === player._id) === -1) {
         // Push player to players array

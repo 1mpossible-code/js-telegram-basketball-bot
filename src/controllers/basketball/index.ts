@@ -6,6 +6,7 @@ import * as RoomService from "../../services/RoomService";
 import logger from "../../util/logger";
 import {checkIfWin, IDice} from "../../services/DiceService";
 import {IPlayer} from "../../models/Player";
+import Room from "../../models/Room";
 
 
 /**
@@ -69,16 +70,21 @@ export const callback_query = async (ctx: MyContext) => {
     // @ts-ignore because callbackQuery hasn't
     // data in interface from telegraf lib
     const {data} = ctx.callbackQuery;
+
+    const user: PlayerService.IUser = {
+        _id: String(ctx.from?.id),
+        name: String(ctx.from?.first_name),
+    };
+
+    const chat: RoomService.IChat = {
+        _id: String(ctx.chat?.id),
+    }
+
     switch (data) {
         case 'join':
             logger.debug('join callback query');
-            const user: PlayerService.IUser = {
-                _id: String(ctx.from?.id),
-                name: String(ctx.from?.first_name),
-            };
 
-            const player: IPlayer = await PlayerService.getPlayer(user);
-            const result = await RoomService.addPlayerToRoom(ctx.chat?.id || 0, player);
+            const result = await RoomService.addPlayerToRoom(chat, user);
 
             if (result) {
                 await ctx.answerCbQuery('Joined the room successfully!')
