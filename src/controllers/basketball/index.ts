@@ -1,12 +1,10 @@
 import {Scenes} from 'telegraf';
 import MyContext from "../../types/IMyContext";
-import {deleteMessage, getEnterReplyOptions, timeoutMessage} from "./util";
+import {deleteMessageWithTimeout, getEnterReplyOptions, sendAutoDeleteMessage, timeoutMessage} from "./util";
 import * as PlayerService from "../../services/PlayerService";
 import * as RoomService from "../../services/RoomService";
 import logger from "../../util/logger";
 import {checkIfWin, IDice} from "../../services/DiceService";
-import {IPlayer} from "../../models/Player";
-import Room from "../../models/Room";
 
 
 /**
@@ -49,17 +47,11 @@ export const setRoomMaxScore = async (ctx: MyContext) => {
     const isDigit = /^[0-9]+$/.test(numberText);
     // Check if the text is number and if the number is <= 10 and >= 0
     if (isDigit && parseInt(numberText) <= 10 && parseInt(numberText) >= 0) {
-        await ctx.reply(`Ok. Max score in this game is ${numberText}`);
+        await sendAutoDeleteMessage(ctx, `Ok. Max score in this game is ${numberText}`);
     } else if (isDigit) {
-        await ctx.reply('I think the score is too high. Try again');
-    } else {
-        deleteMessage(ctx)
-        // Send a message and then delete it in 5 sec
-        const message = await ctx.reply('You need to specify a number to set max score.')
-        setTimeout(async () => {
-            await ctx.deleteMessage(message.message_id);
-        }, 5000)
+        await sendAutoDeleteMessage(ctx, 'I think the score is too high. Try again');
     }
+    deleteMessageWithTimeout(ctx)
 }
 
 /**
@@ -88,12 +80,20 @@ export const callback_query = async (ctx: MyContext) => {
 
             if (result) {
                 await ctx.answerCbQuery('Joined the room successfully!')
+                await sendAutoDeleteMessage(ctx, `${user.name} joined successfully`);
             } else {
                 await ctx.answerCbQuery('You are already in the room!')
             }
             break;
         case 'start':
             logger.debug('start callback query');
+            const error = await RoomService.validateRoom(chat);
+            if (error) {
+                await ctx.answerCbQuery(error.message);
+                await sendAutoDeleteMessage(ctx, error.message)
+            } else {
+                ctx.scene.enter('basketball');
+            }
     }
 }
 
@@ -123,5 +123,5 @@ export const dice = (ctx: MyContext) => {
 }
 // Delete all other messages
 export const message = (ctx: MyContext) => {
-    deleteMessage(ctx)
+    deleteMessageWithTimeout(ctx, 5000)
 }
