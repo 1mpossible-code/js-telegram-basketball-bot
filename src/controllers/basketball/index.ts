@@ -58,7 +58,7 @@ export const setRoomMaxScore = async (ctx: MyContext) => {
  * Handle callback queries in enter router.
  * @param ctx
  */
-export const callback_query = async (ctx: MyContext) => {
+export const callbackQuery = async (ctx: MyContext) => {
     // @ts-ignore because callbackQuery hasn't
     // data in interface from telegraf lib
     const {data} = ctx.callbackQuery;

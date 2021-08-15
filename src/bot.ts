@@ -4,6 +4,7 @@ import echoScene from "./controllers/echo";
 import MyContext from "./types/IMyContext";
 import basketballGameScene from "./routes/basketball/basketball";
 import basketballEnterScene from "./routes/basketball/enter";
+import {callbackQuery as basketballCallbackQuery} from "./controllers/basketball";
 import mongoose from "mongoose";
 import logger from "./util/logger";
 
@@ -38,6 +39,7 @@ bot.command('basketball', (ctx) => {
         ctx.reply('Sorry! This option is available only in groups');
     }
 })
+bot.on("callback_query", basketballCallbackQuery);
 
 // Launch bot
 bot.launch().then(() => logger.info('Bot is ONLINE'));
