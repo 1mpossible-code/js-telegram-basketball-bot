@@ -9,7 +9,7 @@ export interface IChat {
 }
 
 export const getRoom = async (chat: IChat) => {
-    return await Room.findOne({_id: chat._id}) ?? await Room.create(<IRoom>{
+    return await Room.findOne({_id: chat._id}).populate('players') ?? (await Room.create(<IRoom>{
         _id: chat._id,
         owner: chat.owner,
         maxScore: 0,
@@ -17,7 +17,7 @@ export const getRoom = async (chat: IChat) => {
         turn: 0,
         createdAt: new Date().valueOf(),
         updatedAt: new Date().valueOf(),
-    })
+    })).populate('players');
 }
 
 export const updateRoom = async (id: number | string, data: Object) => {
@@ -38,7 +38,7 @@ export const addPlayerToRoom = async (chat: IChat, user: PlayerService.IUser) =>
     // Get player
     const player: IPlayer = await PlayerService.getPlayer(user);
     // Get room
-    const room = await Room.findOne({_id: chat._id}).populate('players');
+    const room = await getRoom(chat)
     // Check if user index not exists
     if (room && room.players.findIndex(x => x._id === player._id) === -1) {
         // Push player to players array
